@@ -8,7 +8,7 @@ import numpy as np
 
 # PDF libs
 import pdfplumber
-# import fitz  # PyMuPDF
+import fitz  # PyMuPDF
 
 # ---- EasyOCR reader (singleton) ----
 # Matches your notebook: reader = easyocr.Reader(['en'])
@@ -56,7 +56,7 @@ def extract_text_from_pdf(file_bytes: bytes, languages=None) -> str:
         pass
 
     if "".join(text_chunks).strip():
-        return "\n\n".join(text_chunks)
+        return "  ".join(text_chunks)
 
     # 2) OCR fallback: render pages as images and OCR
     try:
@@ -69,7 +69,7 @@ def extract_text_from_pdf(file_bytes: bytes, languages=None) -> str:
             page_text = extract_text_from_image(img_bytes, languages=languages)
             if page_text.strip():
                 ocr_chunks.append(page_text)
-        return "\n\n".join(ocr_chunks)
+        return "  ".join(ocr_chunks)
     except Exception:
         return ""
 
